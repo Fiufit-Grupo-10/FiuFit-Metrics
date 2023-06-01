@@ -1,36 +1,57 @@
 from enum import Enum
+from typing import Tuple
 from pydantic import BaseModel, Field
 from uuid import uuid4
-
-
-# Como administrador del sistema quiero poder visualizar las métricas de usuarios para medir el uso de la plataforma y sus servicios
-# Criterios de aceptación
-
-# CA 1: Métricas de nuevos usuarios utilizando mail y contraseña
-# CA 2: Métricas de nuevos usuarios utilizando identidad federada
-# CA 3: Métricas de login de usuarios utilizando mail y contraseña
-# CA 4: Métricas de login de usuarios utilizando identidad federada
-# CA 5: Métricas de usuarios bloqueados
-# CA 6: Métricas de recupero de contraseña
-# CA 7: Métricas de usuarios por zona geográfica
+from typing import Literal
 
 
 class MetricType(str, Enum):
-    standard_user = "standard_user"
-    federated_user = "federated_user"
-    standard_user_login = "standard_user_login"
-    federated_user_login = "federated_user_login"
+    register_with_email_and_password = "register_with_email_and_password"
+    register_with_federeted_identity = "register_with_federated_identity"
+    login_with_email_and_password = "login_with_email_and_password"
+    login_with_federeted_identity = "login_with_federeted_identity"
     blocked_user = "blocked_user"
     password_recover = "password_recover"
 
 
+class NewUser(BaseModel):
+    metric_type: Literal[
+        MetricType.register_with_email_and_password,
+        MetricType.register_with_federeted_identity,
+    ]
+    latitude: float
+    longitude: float
+
+
+class Login(BaseModel):
+    metric_type: Literal[
+        MetricType.login_with_federeted_identity,
+        MetricType.login_with_email_and_password,
+    ]
+
+
+class BlockedUser(BaseModel):
+    metric_type: Literal[MetricType.blocked_user]
+
+
+class PasswordRecover(BaseModel):
+    metric_type: Literal[MetricType.password_recover]
+
+
 class UserMetric(BaseModel):
-    metric = MetricType
+    metric: NewUser | Login | BlockedUser | PasswordRecover = Field(
+        ..., discriminator="metric_type"
+    )
+    id: str = Field(default_factory=uuid4, alias="_id")
 
     class Config:
         allow_population_by_field_name = True
         schema_extra = {
             "example": {
-                "metric": "standard_user",
+                "metric": {
+                    "metric_type": "register_with_email_and_password",
+                    "latitude": 34.132131,
+                    "longitude": 34.12231,
+                }
             }
         }
