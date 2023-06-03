@@ -16,7 +16,6 @@ router = APIRouter(tags=["metrics"])
 @router.post("/metrics", response_model=UserMetric)
 async def create_metric(metric: UserMetric, request: Request):
     metric = jsonable_encoder(metric)
-
     new_metric = await request.app.mongodb[METRICS_COLLECTION_NAME].insert_one(metric)
     created_metric = await request.app.mongodb[METRICS_COLLECTION_NAME].find_one(
         {"_id": new_metric.inserted_id}

@@ -11,3 +11,5 @@ services:
       - ./:/app
     environment:
       - MONGO_URL=${MONGO_URL}
+
+
