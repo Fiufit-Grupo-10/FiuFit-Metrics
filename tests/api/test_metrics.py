@@ -59,3 +59,6 @@ def test_create_login_with_federated_identity_metric(test_app):
     body = response.json()
     assert body["metric"]["metric_type"] == MetricType.login_with_federated_identity
     assert "_id" in body
+
+
+curl -X POST -H "Content-Type: application/json" -d '{"metric":"password_recover"}' "https://metrics-new-franco-jyq.cloud.okteto.net/"
