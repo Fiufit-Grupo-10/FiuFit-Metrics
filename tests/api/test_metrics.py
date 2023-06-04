@@ -47,7 +47,7 @@ def test_create_register_with_federated_identity_metric(test_app):
 def test_create_login_with_federated_identity_metric(test_app):
     metric = {
         "metric": {
-            "metric_type": MetricType.login_with_federeted_identity,
+            "metric_type": MetricType.login_with_federated_identity,
             "latitude": -36.623237918303765,  # Estas coordenadas correspondes a provincia: La Pampa, departamento: Capital
             "longitude": -64.29505665365905,
         },
@@ -57,5 +57,5 @@ def test_create_login_with_federated_identity_metric(test_app):
     assert response.status_code == 201
 
     body = response.json()
-    assert body["metric"]["metric_type"] == MetricType.login_with_federeted_identity
+    assert body["metric"]["metric_type"] == MetricType.login_with_federated_identity
     assert "_id" in body

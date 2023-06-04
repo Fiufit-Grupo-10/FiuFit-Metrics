@@ -17,10 +17,9 @@ class MetricType(str, Enum):
     register_with_email_and_password = "register_with_email_and_password"
     register_with_federated_identity = "register_with_federated_identity"
     login_with_email_and_password = "login_with_email_and_password"
-    login_with_federeted_identity = "login_with_federeted_identity"
+    login_with_federated_identity = "login_with_federated_identity"
     blocked_user = "blocked_user"
     password_recover = "password_recover"
-    geographic_zone = "geographic_zone"
 
 
 class UserWithGeographicZone(BaseModel):
@@ -57,7 +56,7 @@ class NewUser(BaseModel):
 
 class Login(BaseModel):
     metric_type: Literal[
-        MetricType.login_with_federeted_identity,
+        MetricType.login_with_federated_identity,
         MetricType.login_with_email_and_password,
     ]
 

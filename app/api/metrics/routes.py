@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, Request, status, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -21,3 +22,23 @@ async def create_metric(metric: UserMetric, request: Request):
         {"_id": new_metric.inserted_id}
     )
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_metric)
+
+
+@router.get("/metrics")
+async def get_metrics(
+    request: Request,
+    metric_type: str,
+    start_date: str = Query(..., description="Start date in ISO format"),
+    end_date: str = Query(..., description="End date in ISO format"),
+):
+    results = (
+        await request.app.mongodb[METRICS_COLLECTION_NAME]
+        .find(
+            {
+                "metric.metric_type": metric_type,
+                "updated": {"$lte": end_date, "$gte": start_date},
+            }
+        )
+        .to_list(None)
+    )
+    return results
