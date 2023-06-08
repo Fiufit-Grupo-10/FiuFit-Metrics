@@ -15,7 +15,7 @@ RUN poetry config virtualenvs.create false
 RUN poetry install
 
 ARG MONGO_METRICS_URL
-ENV MONGO_URL $MONGO_METRICS_URL
+ENV MONGO_METRICS_URL $MONGO_METRICS_URL
 
 EXPOSE 8080
 

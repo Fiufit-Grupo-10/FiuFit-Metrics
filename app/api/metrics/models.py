@@ -1,3 +1,4 @@
+from email.policy import default
 from enum import Enum
 import string
 from typing import Tuple
@@ -6,6 +7,25 @@ from uuid import uuid4
 from typing import Literal
 from datetime import datetime
 import httpx
+
+
+class TotalMetricsResponse(BaseModel):
+    register_with_email_and_password: int | None = Field(default=0)
+    register_with_federated_identity: int | None = Field(default=0)
+    login_with_email_and_password: int | None = Field(default=0)
+    login_with_federated_identity: int | None = Field(default=0)
+    blocked_user: int | None = Field(default=0)
+    password_recover: int | None = Field(default=0)
+
+    class Config:
+        schema_extra = {
+            "register_with_email_and_password": 10,
+            "register_with_federated_identity": 3,
+            "login_with_email_and_password": 2,
+            "login_with_federated_identity": 20,
+            "blocked_user": 40,
+            "password_recover": 1,
+        }
 
 
 class Position(BaseModel):
