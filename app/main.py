@@ -3,8 +3,11 @@ from app.api.metrics import routes as metrics_routes
 from app.config.database import DB_NAME, MONGO_METRICS_URL
 from motor.motor_asyncio import AsyncIOMotorClient
 import asyncio
+from ddtrace_asgi.middleware import TraceMiddleware
+
 
 app = FastAPI()
+app.add_middleware(TraceMiddleware, service="metrics-service")
 
 
 @app.on_event("startup")
