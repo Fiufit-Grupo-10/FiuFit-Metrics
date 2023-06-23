@@ -7,7 +7,7 @@ from ddtrace.contrib.asgi import TraceMiddleware
 
 
 app = FastAPI()
-app.add_middleware(TraceMiddleware, service="metrics-service")
+app.add_middleware(TraceMiddleware)
 
 
 @app.on_event("startup")
