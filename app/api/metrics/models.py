@@ -1,9 +1,25 @@
 from enum import Enum
+from pickle import NONE
 from pydantic import BaseModel, Field
 from uuid import uuid4
 from typing import Literal
 from datetime import datetime
 import httpx
+
+
+class UserByProvince(BaseModel):
+    province: str | None = Field(default="No province found")
+    counter: int | None = Field(default=0)
+
+
+class UserByDepartment(BaseModel):
+    department: str | None = Field(default="No department found")
+    counter: int | None = Field(default=0)
+
+
+class TotalGeographicalResponse(BaseModel):
+    provinces: list[UserByProvince] | None = Field(default=[])
+    departments: list[UserByDepartment] | None = Field(default=[])
 
 
 class TotalMetricsResponse(BaseModel):

@@ -6,7 +6,13 @@ from starlette.status import HTTP_404_NOT_FOUND
 from app.config.database import METRICS_COLLECTION_NAME
 
 
-from app.api.metrics.models import UserMetric, TotalMetricsResponse
+from app.api.metrics.models import (
+    TotalGeographicalResponse,
+    UserByDepartment,
+    UserByProvince,
+    UserMetric,
+    TotalMetricsResponse,
+)
 
 
 router = APIRouter(tags=["metrics"])
@@ -56,3 +62,37 @@ async def get_totals(
     total_metrics_response = TotalMetricsResponse(**data)
 
     return total_metrics_response
+
+
+@router.get("/metrics/locations", response_model=TotalGeographicalResponse)
+async def get_geo_stats(request: Request, register_type: str):
+    province_pipeline = [
+        {"$match": {"metric.metric_type": register_type}},
+        {"$group": {"_id": "$metric.geographic_zone.province", "count": {"$sum": 1}}},
+    ]
+
+    department_pipeline = [
+        {"$match": {"metric.metric_type": register_type}},
+        {"$group": {"_id": "$metric.geographic_zone.department", "count": {"$sum": 1}}},
+    ]
+
+    province_result = request.app.mongodb[METRICS_COLLECTION_NAME].aggregate(
+        province_pipeline
+    )
+    deparment_result = request.app.mongodb[METRICS_COLLECTION_NAME].aggregate(
+        department_pipeline
+    )
+
+    departments = []
+    async for result in deparment_result:
+        departments.append(
+            UserByDepartment(department=result["_id"], counter=result["count"])
+        )
+
+    provinces = []
+    async for result in province_result:
+        provinces.append(
+            UserByProvince(province=result["_id"], counter=result["count"])
+        )
+
+    return TotalGeographicalResponse(provinces=provinces, departments=departments)
