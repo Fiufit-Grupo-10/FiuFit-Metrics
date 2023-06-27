@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.metrics import routes as metrics_routes
+from app.api.training_metrics import routes as training_metrics_routes
 from app.config.database import DB_NAME, MONGO_METRICS_URL
 from motor.motor_asyncio import AsyncIOMotorClient
 import asyncio
@@ -26,3 +27,4 @@ async def shutdown_db_client():
 
 
 app.include_router(metrics_routes.router)
+app.include_router(training_metrics_routes.router)
