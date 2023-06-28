@@ -2,4 +2,5 @@ import os
 
 MONGO_METRICS_URL = os.getenv("MONGO_METRICS_URL", "")
 METRICS_COLLECTION_NAME = "users"
+TRAINING_METRICS_COLLECTION_NAME = "trainings"
 DB_NAME = "Metrics"
