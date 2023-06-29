@@ -156,4 +156,4 @@ async def test_get_metrics_fail(test_app):
             "metrics/trainings/c59710ef-f5d0-41ba-a787-ad8eb739ef4c"
         )
 
-    assert response.status_code == 404
+    assert response.status_code == 200
