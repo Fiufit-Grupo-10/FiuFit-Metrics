@@ -21,8 +21,5 @@ async def update_metric(
 async def get_metrics(training_id: str, request: Request):
     result = await crud.get_metrics(training_id=training_id, request=request)
     if result is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"training with id:{training_id} not found",
-        )
+        result = TrainingPlanMetrics(_id=0, training_id=training_id)
     return result
