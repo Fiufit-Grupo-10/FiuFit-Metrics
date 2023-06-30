@@ -1,5 +1,5 @@
 from enum import Enum
-from pickle import NONE
+from turtle import pos
 from pydantic import BaseModel, Field
 from uuid import uuid4
 from typing import Literal
@@ -73,7 +73,9 @@ class NewUser(BaseModel):
             lon,
         ) = (data.get("latitude"), data.get("longitude"))
         position = Position(latitude=lat, longitude=lon)
-        url = f"https://apis.datos.gob.ar/georef/api/ubicacion?lat={position.latitude}&lon={position.longitude}"
+        lat = position.latitude
+        lon = position.longitude
+        url = f"https://apis.datos.gob.ar/georef/api/ubicacion?lat={lat}&lon={lon}"
         response = httpx.get(url)
         json_data = response.json()
         department = json_data["ubicacion"]["departamento"]["nombre"]

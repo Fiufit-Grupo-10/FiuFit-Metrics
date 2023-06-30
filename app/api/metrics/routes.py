@@ -1,8 +1,6 @@
-from datetime import datetime
-from fastapi import APIRouter, HTTPException, Request, status, Query
+from fastapi import APIRouter, Request, status, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from starlette.status import HTTP_404_NOT_FOUND
 from app.config.database import METRICS_COLLECTION_NAME
 
 
@@ -37,6 +35,7 @@ async def get_metrics(
     end_date: str | None = Query(default=None, description="End date in ISO format"),
 ):
     query = {"metric.metric_type": metric_type}
+
     if start_date is not None and end_date is not None:
         query["updated"] = {"$lte": end_date, "$gte": start_date}
 
