@@ -2,10 +2,7 @@ from pytest import fixture
 from starlette.config import environ
 from starlette.testclient import TestClient
 from app.main import app
-from app.config.database import (
-    DB_NAME,
-    METRICS_COLLECTION_NAME,
-)
+from app.config.database import DB_NAME
 
 
 @fixture

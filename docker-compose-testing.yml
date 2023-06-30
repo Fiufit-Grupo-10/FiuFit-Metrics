@@ -15,7 +15,6 @@ services:
       - ./:/app
     environment:
       - MONGO_METRICS_URL=mongodb://mongodb:27017/
- 
     depends_on:   
       - mongodb
     networks:
@@ -24,12 +23,13 @@ services:
   tests:
     build:
       context: .
+      dockerfile: Dockerfile.dev
     ports:
       - 8090:80
     volumes:
       - ./:/app
     environment:
-      - MONGO_URL=mongodb://mongodb:27017/
+      - MONGO_METRICS_URL=mongodb://mongodb:27017/
  
     depends_on:   
       - mongodb
