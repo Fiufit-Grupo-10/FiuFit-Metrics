@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.api.metrics import routes as metrics_routes
 from app.api.training_metrics import routes as training_metrics_routes
 from app.config.database import DB_NAME, MONGO_METRICS_URL
+from app.config.config import DEV_ENV
 from motor.motor_asyncio import AsyncIOMotorClient
 import asyncio
 from ddtrace.contrib.asgi import TraceMiddleware
@@ -11,7 +12,8 @@ from ddtrace import config
 config.fastapi['service_name'] = 'metrics-service'
 
 app = FastAPI()
-app.add_middleware(TraceMiddleware)
+if DEV_ENV == "true":
+    app.add_middleware(TraceMiddleware)
 
 
 @app.on_event("startup")
