@@ -1,3 +1,5 @@
+![ci](https://github.com/Fiufit-Grupo-10/FiuFit-Metrics/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/Fiufit-Grupo-10/FiuFit-Metrics/branch/main/graph/badge.svg?token=fR22qzNU4J)](https://codecov.io/gh/Fiufit-Grupo-10/FiuFit-Metrics)
 # FiuFit-Metrics
 
 Microservice trainers implementation for Fiufit application
