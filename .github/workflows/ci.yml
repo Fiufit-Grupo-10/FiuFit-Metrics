@@ -62,14 +62,14 @@ jobs:
       - name: Run flake
         run: poetry run flake8 'app' --max-line-length 100
 
-      # - name: Run docker-compose tests
-      #   run: docker-compose -f docker-compose-testing.yml run --rm ci-tests
+      - name: Run docker-compose tests
+        run: docker-compose -f docker-compose-testing.yml run --rm ci-tests
 
-      # - name: Upload coverage
-      #   if: ${{ !inputs.skipTests }}  # upload when we really run our tests
-      #   uses: codecov/codecov-action@v3
-      #   continue-on-error: true  # we don't care if it fails
-      #   with:
-      #     token: ${{secrets.CODECOV_TOKEN}}  # set in repository settings
-      #     file: ./coverage.xml  # file from the previous step
-      #     fail_ci_if_error: false
+      - name: Upload coverage
+        if: ${{ !inputs.skipTests }} # upload when we really run our tests
+        uses: codecov/codecov-action@v3
+        continue-on-error: true # we don't care if it fails
+        with:
+          token: ${{secrets.CODECOV_TOKEN}} # set in repository settings
+          file: ./coverage.xml # file from the previous step
+          fail_ci_if_error: false
