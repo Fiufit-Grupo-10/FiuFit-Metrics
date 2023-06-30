@@ -8,6 +8,7 @@ from structlog.types import Processor
 DEFAULT_LEVEL = "INFO"
 LOGGER_NAME = "Metrics"
 
+
 def get_log_level() -> int:
     level = os.getenv("LOG_LEVEL", DEFAULT_LEVEL)
     return logging.getLevelName(level)

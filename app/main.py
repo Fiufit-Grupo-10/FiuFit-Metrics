@@ -9,7 +9,7 @@ from ddtrace.contrib.asgi import TraceMiddleware
 from ddtrace import config
 
 # Override service name
-config.fastapi['service_name'] = 'metrics-service'
+config.fastapi["service_name"] = "metrics-service"
 
 app = FastAPI()
 if DEV_ENV == "true":
