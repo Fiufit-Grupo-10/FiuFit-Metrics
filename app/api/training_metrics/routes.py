@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, Request
 from .models import TrainingPlanMetrics, TrainingPlanMetricsRequest
 from . import crud
 from fastapi.responses import JSONResponse

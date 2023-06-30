@@ -1,5 +1,4 @@
 from enum import Enum
-from turtle import pos
 from pydantic import BaseModel, Field
 from uuid import uuid4
 from typing import Literal
